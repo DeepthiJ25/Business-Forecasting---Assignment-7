@@ -1,0 +1,46 @@
+---
+Title: "Assignment #7 - ARIMA"
+Author: "Deepthi JahanMohan"
+Output: html_document
+---
+
+```{r}
+library(fpp2)
+library(TTR)
+library(forecast)
+netflix <- read.csv("NetflixData.csv")
+netflix_clean <- na.omit(netflix)
+netflix[is.na(netflix)] <- 0
+ndiffs(netflix$revenues_USD_thousands)
+```
+
+ndiffs(netflix$revenues_USD_thousands)
+```{r}
+tsdisplay(netflix$revenues_USD_thousands)
+```
+tsdisplay(netflix$revenues_USD_thousands)
+
+```{r}
+netflix2 <- diff(netflix$revenues_USD_thousands, differences = 8)
+plot(netflix2)
+```
+plot(netflix2)
+
+```{r}
+tsdisplay(netflix2)
+```
+
+tsdisplay(netflix2)
+```{r}
+fit_arima <- auto.arima(netflix$revenues_USD_thousands, seasonal = TRUE, stepwise = FALSE, approximation = FALSE, trace = TRUE)
+summary(fit_arima)
+attributes(fit_arima)
+plot(forecast(fit_arima, h=5))
+Acf(fit_arima$residuals)
+Box.test(residuals(fit_arima), lag=20, type="Ljung")
+checkresiduals(fit_arima)
+```
+checkresiduals(fit_arima)
+
+```{r}
+
